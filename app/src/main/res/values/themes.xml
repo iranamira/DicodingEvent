@@ -1,0 +1,5 @@
+<resources>
+    <style name="Theme.DicodingEvent" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/sky_blue</item>
+    </style>
+</resources>

@@ -1,12 +1,12 @@
-package com.example.dicodingevent.api
+package com.example.dicodingevent.data.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object ApiInstance {
+object ApiClient {
     private const val BASE_URL = "https://event-api.dicoding.dev/"
 
-    val apiInstance: ApiService by lazy {
+    val apiClient: ApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

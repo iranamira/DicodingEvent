@@ -3,4 +3,10 @@
     <string name="title_home">Home</string>
     <string name="title_upcoming">Upcoming</string>
     <string name="title_finished">Finished</string>
+    <string name="label_home">Dicoding Event</string>
+    <string name="label_upcoming">Upcoming Events</string>
+    <string name="label_finished">Finished Events</string>
+    <string name="event_date_same_day">%1$s | %2$s - %3$s WIB</string>
+    <string name="event_date_different_day">%1$s | %2$s - %3$s | %4$s WIB</string>
+    <string name="event_image_logo">Event Image Logo</string>
 </resources>

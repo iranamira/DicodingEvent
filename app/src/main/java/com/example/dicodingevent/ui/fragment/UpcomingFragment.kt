@@ -1,14 +1,16 @@
-package com.example.dicodingevent.ui.upcoming
+package com.example.dicodingevent.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.dicodingevent.adapters.UpcomingAdapter
+import com.example.dicodingevent.adapter.UpcomingAdapter
 import com.example.dicodingevent.databinding.FragmentUpcomingBinding
+import com.example.dicodingevent.viewmodel.UpcomingViewModel
 
 class UpcomingFragment : Fragment() {
     private lateinit var binding: FragmentUpcomingBinding
@@ -38,18 +40,32 @@ class UpcomingFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        upcomingAdapter = UpcomingAdapter(mutableListOf())
+        upcomingAdapter = UpcomingAdapter(listOf())
         binding.rvUpcomingEvent.layoutManager = LinearLayoutManager(requireActivity())
         binding.rvUpcomingEvent.adapter = upcomingAdapter
     }
 
     private fun getUpcomingEvents() {
+        binding.rvUpcomingEvent.visibility = View.GONE
+        binding.progressBar.visibility = View.VISIBLE
         upcomingViewModel.getUpcomingEvents()
     }
 
     private fun setupObservers() {
         upcomingViewModel.upcomingEvents.observe(viewLifecycleOwner) {
+            binding.rvUpcomingEvent.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.GONE
             upcomingAdapter.updateData(it)
+        }
+        upcomingViewModel.exception.observe(viewLifecycleOwner) {
+            if (it) {
+                Toast.makeText(
+                    requireContext(),
+                    "Internet tidak tersedia",
+                    Toast.LENGTH_SHORT
+                ).show()
+                upcomingViewModel.resetExceptionValue()
+            }
         }
     }
 }

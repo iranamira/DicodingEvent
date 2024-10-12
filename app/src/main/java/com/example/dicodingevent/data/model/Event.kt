@@ -1,6 +1,6 @@
-package com.example.dicodingevent.models
+package com.example.dicodingevent.data.model
 
-data class UpcomingEvent(
+data class Event(
     val error: Boolean,
     val message: String,
     val listEvents: List<ListEvents>

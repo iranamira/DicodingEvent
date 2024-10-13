@@ -25,7 +25,7 @@ class EventRepository(private val apiService: ApiService) {
         return apiService.getEventById(id)
     }
 
-    suspend fun getUpcomingEventByKeyword(keyword: String): HeaderListEvent {
-        return apiService.getUpcomingEventsByKeyword(-1, keyword)
+    suspend fun getEventsByKeyword(keyword: String): HeaderListEvent {
+        return apiService.getEventsByKeyword(-1, keyword)
     }
 }

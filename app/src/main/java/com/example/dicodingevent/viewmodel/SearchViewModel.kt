@@ -9,7 +9,7 @@ import com.example.dicodingevent.data.model.Event
 import com.example.dicodingevent.data.repository.EventRepository
 import kotlinx.coroutines.launch
 
-class MenuViewModel : ViewModel() {
+class SearchViewModel : ViewModel() {
     private val eventRepository: EventRepository
 
     init {
@@ -23,7 +23,7 @@ class MenuViewModel : ViewModel() {
     fun getAllEventsByKeyword(keyword: String) {
         viewModelScope.launch {
             try {
-                allEventsByKeyword.value = eventRepository.getUpcomingEventByKeyword(keyword).listEvents
+                allEventsByKeyword.value = eventRepository.getEventsByKeyword(keyword).listEvents
             } catch (e: Exception) {
                 Log.e("Exception", "Unexpected Exception")
                 exception.value = true

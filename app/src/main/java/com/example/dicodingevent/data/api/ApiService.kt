@@ -29,7 +29,7 @@ interface ApiService {
     suspend fun getEventById(@Path("id") id: Int): HeaderSingleEvent
 
     @GET("events")
-    suspend fun getUpcomingEventsByKeyword(
+    suspend fun getEventsByKeyword(
         @Query("active") active: Int,
         @Query("q") q: String
     ): HeaderListEvent

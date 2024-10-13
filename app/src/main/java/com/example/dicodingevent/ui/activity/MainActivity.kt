@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setupBottomNavigationView()
 
         binding.ibSearch.setOnClickListener {
-            startActivity(Intent(this, MenuActivity::class.java))
+            startActivity(Intent(this, SearchActivity::class.java))
         }
     }
 

@@ -9,11 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dicodingevent.adapter.MenuAdapter
 import com.example.dicodingevent.databinding.ActivityMenuBinding
-import com.example.dicodingevent.viewmodel.MenuViewModel
+import com.example.dicodingevent.viewmodel.SearchViewModel
 
-class MenuActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMenuBinding
-    private lateinit var menuViewModel: MenuViewModel
+    private lateinit var searchViewModel: SearchViewModel
     private lateinit var menuAdapter: MenuAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +33,7 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        menuViewModel = ViewModelProvider(this)[MenuViewModel::class.java]
+        searchViewModel = ViewModelProvider(this)[SearchViewModel::class.java]
     }
 
     private fun setupButtonAndMenu() {
@@ -57,7 +57,7 @@ class MenuActivity : AppCompatActivity() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
-                    menuViewModel.getAllEventsByKeyword(query)
+                    searchViewModel.getAllEventsByKeyword(query)
                     binding.progressBar.visibility = View.VISIBLE
                     binding.rvUpcomingEvent.visibility = View.GONE
                 }
@@ -71,7 +71,7 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        menuViewModel.allEventsByKeyword.observe(this) {
+        searchViewModel.allEventsByKeyword.observe(this) {
             binding.progressBar.visibility = View.GONE
             menuAdapter.updateData(it)
 
@@ -83,14 +83,14 @@ class MenuActivity : AppCompatActivity() {
                 binding.tvNoResult.visibility = View.VISIBLE
             }
         }
-        menuViewModel.exception.observe(this) {
+        searchViewModel.exception.observe(this) {
             if (it) {
                 Toast.makeText(
                     this,
                     "Internet tidak tersedia",
                     Toast.LENGTH_SHORT
                 ).show()
-                menuViewModel.resetExceptionValue()
+                searchViewModel.resetExceptionValue()
             }
         }
     }

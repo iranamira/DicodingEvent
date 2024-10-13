@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dicodingevent.databinding.FragmentHomeBinding
 import com.example.dicodingevent.adapter.HomeFinishedAdapter
@@ -42,7 +43,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        homeUpcomingAdapter = HomeUpcomingAdapter(listOf())
+        val navController = findNavController()
+
+        homeUpcomingAdapter = HomeUpcomingAdapter(listOf(), navController)
         binding.rvUpcomingEvent.layoutManager = LinearLayoutManager(
             requireActivity(),
             LinearLayoutManager.HORIZONTAL,
@@ -50,7 +53,7 @@ class HomeFragment : Fragment() {
         )
         binding.rvUpcomingEvent.adapter = homeUpcomingAdapter
 
-        homeFinishedAdapter = HomeFinishedAdapter(listOf())
+        homeFinishedAdapter = HomeFinishedAdapter(listOf(), navController)
         binding.rvFinishedEvent.layoutManager = LinearLayoutManager(requireActivity())
         binding.rvFinishedEvent.adapter = homeFinishedAdapter
     }

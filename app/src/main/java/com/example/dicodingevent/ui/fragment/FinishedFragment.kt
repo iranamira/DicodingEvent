@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dicodingevent.databinding.FragmentFinishedBinding
 import com.example.dicodingevent.adapter.FinishedAdapter
@@ -40,7 +41,8 @@ class FinishedFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        finishedAdapter = FinishedAdapter(listOf())
+        val navController = findNavController()
+        finishedAdapter = FinishedAdapter(listOf(), navController)
         binding.rvFinishedEvent.layoutManager = LinearLayoutManager(requireActivity())
         binding.rvFinishedEvent.adapter = finishedAdapter
     }

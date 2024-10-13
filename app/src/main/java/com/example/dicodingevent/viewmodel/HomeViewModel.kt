@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dicodingevent.data.api.ApiClient
-import com.example.dicodingevent.data.model.ListEvents
+import com.example.dicodingevent.data.model.Event
 import com.example.dicodingevent.data.repository.EventRepository
 import kotlinx.coroutines.launch
 
@@ -17,8 +17,8 @@ class HomeViewModel : ViewModel() {
         eventRepository = EventRepository(apiService)
     }
 
-    val upcomingEvents = MutableLiveData<List<ListEvents>>()
-    val finishedEvents = MutableLiveData<List<ListEvents>>()
+    val upcomingEvents = MutableLiveData<List<Event>>()
+    val finishedEvents = MutableLiveData<List<Event>>()
     val exception = MutableLiveData<Boolean>()
 
     fun getUpcomingEvents() {

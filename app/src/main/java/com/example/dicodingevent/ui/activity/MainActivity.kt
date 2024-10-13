@@ -1,6 +1,8 @@
 package com.example.dicodingevent.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -16,6 +18,10 @@ class MainActivity : AppCompatActivity() {
 
         setupBinding()
         setupBottomNavigationView()
+
+        binding.ibSearch.setOnClickListener {
+            startActivity(Intent(this, MenuActivity::class.java))
+        }
     }
 
     private fun setupBinding() {
@@ -30,15 +36,18 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.navigation_home -> binding.tvToolbarTitle.text = resources.getString(
-                    R.string.label_home
-                )
-                R.id.navigation_upcoming -> binding.tvToolbarTitle.text = resources.getString(
-                    R.string.label_upcoming
-                )
-                R.id.navigation_finished -> binding.tvToolbarTitle.text = resources.getString(
-                    R.string.label_finished
-                )
+                R.id.fragmentHome -> {
+                    binding.tvToolbarTitle.text = resources.getString(R.string.label_home)
+                    binding.ibSearch.visibility = View.VISIBLE
+                }
+                R.id.fragmentUpcoming -> {
+                    binding.tvToolbarTitle.text = resources.getString(R.string.label_upcoming)
+                    binding.ibSearch.visibility = View.GONE
+                }
+                R.id.fragmentFinished -> {
+                    binding.tvToolbarTitle.text = resources.getString(R.string.label_finished)
+                    binding.ibSearch.visibility = View.GONE
+                }
             }
         }
     }

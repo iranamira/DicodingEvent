@@ -1,20 +1,20 @@
 package com.example.dicodingevent.adapter
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.dicodingevent.R
 import com.example.dicodingevent.data.model.Event
 import com.example.dicodingevent.databinding.ItemEventBinding
+import com.example.dicodingevent.ui.activity.DetailActivity
 import com.example.dicodingevent.util.DateTimeUtil
 import com.example.dicodingevent.util.EventUtil
 
-class FinishedAdapter(
-    private var finishedEventItems: List<Event>,
-    private val navController: NavController
+class MenuAdapter(
+    private var upcomingEventItems: List<Event>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -22,22 +22,22 @@ class FinishedAdapter(
         return ItemViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = finishedEventItems.size
+    override fun getItemCount(): Int = upcomingEventItems.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ItemViewHolder).bind(finishedEventItems[position], navController)
+        (holder as ItemViewHolder).bind(upcomingEventItems[position])
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(finishedEvents: List<Event>) {
-        finishedEventItems = finishedEvents
+    fun updateData(upcomingEvents: List<Event>) {
+        upcomingEventItems = upcomingEvents
         notifyDataSetChanged()
     }
 
     class ItemViewHolder(
         private val itemBinding: ItemEventBinding
     ) : RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(data: Event, navController: NavController) {
+        fun bind(data: Event) {
             Glide.with(itemBinding.root.context)
                 .load(data.imageLogo)
                 .centerCrop()
@@ -49,7 +49,9 @@ class FinishedAdapter(
 
             itemBinding.container.setOnClickListener {
                 EventUtil.eventId = data.id
-                navController.navigate(R.id.action_fragmentFinished_to_detailActivity)
+                itemBinding.root.context.startActivity(
+                    Intent(itemBinding.root.context, DetailActivity::class.java)
+                )
             }
         }
 

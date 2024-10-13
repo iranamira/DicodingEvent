@@ -9,4 +9,14 @@
     <string name="event_date_same_day">%1$s | %2$s - %3$s WIB</string>
     <string name="event_date_different_day">%1$s | %2$s - %3$s | %4$s WIB</string>
     <string name="event_image_logo">Event Image Logo</string>
+    <string name="back_button">Back Button</string>
+    <string name="event_detail">Event Detail</string>
+    <string name="owner_name">Penyelenggara:</string>
+    <string name="category">Kategori:</string>
+    <string name="date">Waktu:</string>
+    <string name="city_name">Lokasi:</string>
+    <string name="quota">Sisa Kuota:</string>
+    <string name="description">Deskripsi:</string>
+    <string name="go_to_website">Pergi ke Website</string>
+    <string name="no_result_keyword">Event yang kamu cari gaada nih</string>
 </resources>

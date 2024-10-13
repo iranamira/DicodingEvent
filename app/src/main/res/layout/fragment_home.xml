@@ -45,6 +45,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_finished_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -53,6 +54,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_finished_text" />
 
         <ProgressBar
+            android:id="@+id/progress_bar"
             android:layout_width="60dp"
             android:layout_height="60dp"
             app:layout_constraintBottom_toBottomOf="parent"

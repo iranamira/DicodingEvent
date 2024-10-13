@@ -1,12 +1,18 @@
 package com.example.dicodingevent.data.model
 
-data class Event(
+data class HeaderListEvent(
     val error: Boolean,
     val message: String,
-    val listEvents: List<ListEvents>
+    val listEvents: List<Event>
 )
 
-data class ListEvents(
+data class HeaderSingleEvent(
+    val error: Boolean,
+    val message: String,
+    val event: Event
+)
+
+data class Event(
     val id: Int,
     val name: String,
     val summary: String,

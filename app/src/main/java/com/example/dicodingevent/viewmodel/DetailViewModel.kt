@@ -9,7 +9,7 @@ import com.example.dicodingevent.data.model.Event
 import com.example.dicodingevent.data.repository.EventRepository
 import kotlinx.coroutines.launch
 
-class UpcomingViewModel : ViewModel() {
+class DetailViewModel : ViewModel() {
     private val eventRepository: EventRepository
 
     init {
@@ -17,13 +17,13 @@ class UpcomingViewModel : ViewModel() {
         eventRepository = EventRepository(apiService)
     }
 
-    val upcomingEvents = MutableLiveData<List<Event>>()
+    val event = MutableLiveData<Event>()
     val exception = MutableLiveData<Boolean>()
 
-    fun getUpcomingEvents() {
+    fun getEvent(id: Int) {
         viewModelScope.launch {
             try {
-                upcomingEvents.value = eventRepository.getUpcomingEvents().listEvents
+                event.value = eventRepository.getEventById(id).event
             } catch (e: Exception) {
                 Log.e("Exception", "Unexpected Exception")
                 exception.value = true

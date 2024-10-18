@@ -1,37 +1,41 @@
 package com.example.dicodingevent.viewmodel
 
-import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dicodingevent.data.api.ApiClient
-import com.example.dicodingevent.data.model.Event
+import com.example.dicodingevent.data.remote.model.Event
 import com.example.dicodingevent.data.repository.EventRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SearchViewModel : ViewModel() {
-    private val eventRepository: EventRepository
+class SearchViewModel(private val eventRepository: EventRepository) : ViewModel() {
+    private val _eventsByKeyword = MutableLiveData<List<Event>>()
+    val eventsByKeyword: LiveData<List<Event>> = _eventsByKeyword
 
-    init {
-        val apiService = ApiClient.apiClient
-        eventRepository = EventRepository(apiService)
-    }
+    private val _exception = MutableLiveData<Boolean>()
+    val exception: LiveData<Boolean> = _exception
 
-    val allEventsByKeyword = MutableLiveData<List<Event>>()
-    val exception = MutableLiveData<Boolean>()
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
 
-    fun getAllEventsByKeyword(keyword: String) {
-        viewModelScope.launch {
+    fun getEventsByKeyword(keyword: String) {
+        _isLoading.value = true
+
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                allEventsByKeyword.value = eventRepository.getEventsByKeyword(keyword).listEvents
+                val eventByKeyword = eventRepository.getEventsByKeyword(keyword).listEvents
+                _eventsByKeyword.postValue(eventByKeyword)
+                _exception.postValue(false)
             } catch (e: Exception) {
-                Log.e("Exception", "Unexpected Exception")
-                exception.value = true
+                _exception.postValue(true)
+            } finally {
+                _isLoading.postValue(false)
             }
         }
     }
 
     fun resetExceptionValue() {
-        exception.value = false
+        _exception.value = false
     }
 }

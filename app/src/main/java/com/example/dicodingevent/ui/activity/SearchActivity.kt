@@ -7,42 +7,40 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.dicodingevent.R
 import com.example.dicodingevent.adapter.MenuAdapter
-import com.example.dicodingevent.databinding.ActivityMenuBinding
+import com.example.dicodingevent.data.local.LocalDatabase
+import com.example.dicodingevent.data.remote.api.ApiClient
+import com.example.dicodingevent.data.repository.EventRepository
+import com.example.dicodingevent.databinding.ActivitySearchBinding
 import com.example.dicodingevent.viewmodel.SearchViewModel
+import com.example.dicodingevent.viewmodel.ViewModelFactory
 
-class SearchActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMenuBinding
-    private lateinit var searchViewModel: SearchViewModel
+class SearchActivity : AppCompatActivity(R.layout.activity_search) {
+    private val binding by viewBinding(ActivitySearchBinding::bind)
+    private val searchViewModel by lazy {
+        val eventRepository = EventRepository(
+            ApiClient.apiClient,
+            LocalDatabase.getDatabase(this).getEventDao()
+        )
+        val factory = ViewModelFactory(eventRepository)
+        ViewModelProvider(this, factory)[SearchViewModel::class.java]
+    }
     private lateinit var menuAdapter: MenuAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setupBinding()
-        setupViewModel()
-        setupButtonAndMenu()
+        setupButton()
         setupRecyclerView()
         setupSearchView()
         setupObservers()
     }
 
-    private fun setupBinding() {
-        binding = ActivityMenuBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-    }
-
-    private fun setupViewModel() {
-        searchViewModel = ViewModelProvider(this)[SearchViewModel::class.java]
-    }
-
-    private fun setupButtonAndMenu() {
+    private fun setupButton() {
         binding.ibBack.setOnClickListener {
             finish()
         }
-        binding.rvUpcomingEvent.visibility = View.GONE
-        binding.tvNoResult.visibility = View.GONE
-        binding.progressBar.visibility = View.GONE
     }
 
     private fun setupRecyclerView() {
@@ -57,9 +55,7 @@ class SearchActivity : AppCompatActivity() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
-                    searchViewModel.getAllEventsByKeyword(query)
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.rvUpcomingEvent.visibility = View.GONE
+                    searchViewModel.getEventsByKeyword(query)
                 }
                 return true
             }
@@ -71,8 +67,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        searchViewModel.allEventsByKeyword.observe(this) {
-            binding.progressBar.visibility = View.GONE
+        searchViewModel.eventsByKeyword.observe(this) {
             menuAdapter.updateData(it)
 
             if (it.isNotEmpty()) {
@@ -80,17 +75,31 @@ class SearchActivity : AppCompatActivity() {
                 binding.tvNoResult.visibility = View.GONE
             } else {
                 binding.rvUpcomingEvent.visibility = View.GONE
+                binding.tvNoResult.text = resources.getString(R.string.no_result_keyword)
                 binding.tvNoResult.visibility = View.VISIBLE
             }
         }
+
         searchViewModel.exception.observe(this) {
             if (it) {
                 Toast.makeText(
                     this,
-                    "Internet tidak tersedia",
+                    resources.getString(R.string.no_internet_connection),
                     Toast.LENGTH_SHORT
                 ).show()
+                binding.tvNoResult.text = resources.getString(R.string.failed_to_load_data)
+                binding.tvNoResult.visibility = View.VISIBLE
                 searchViewModel.resetExceptionValue()
+            }
+        }
+
+        searchViewModel.isLoading.observe(this) {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+                binding.rvUpcomingEvent.visibility = View.GONE
+                binding.tvNoResult.visibility = View.GONE
+            } else {
+                binding.progressBar.visibility = View.GONE
             }
         }
     }

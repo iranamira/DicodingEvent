@@ -1,48 +1,67 @@
 package com.example.dicodingevent.viewmodel
 
-import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dicodingevent.data.api.ApiClient
-import com.example.dicodingevent.data.model.Event
+import com.example.dicodingevent.data.remote.model.Event
 import com.example.dicodingevent.data.repository.EventRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
-    private val eventRepository: EventRepository
+class HomeViewModel(private val eventRepository: EventRepository) : ViewModel() {
+    private val _upcomingEvents = MutableLiveData<List<Event>>()
+    val upcomingEvents: LiveData<List<Event>> = _upcomingEvents
 
-    init {
-        val apiService = ApiClient.apiClient
-        eventRepository = EventRepository(apiService)
-    }
+    private val _finishedEvents = MutableLiveData<List<Event>>()
+    val finishedEvents: LiveData<List<Event>> = _finishedEvents
 
-    val upcomingEvents = MutableLiveData<List<Event>>()
-    val finishedEvents = MutableLiveData<List<Event>>()
-    val exception = MutableLiveData<Boolean>()
+    private val _exception = MutableLiveData<Boolean>()
+    val exception: LiveData<Boolean> = _exception
 
-    fun getUpcomingEvents() {
-        viewModelScope.launch {
-            try {
-                upcomingEvents.value = eventRepository.getLimitUpcomingEvents().listEvents
-            } catch (e: Exception) {
-                Log.e("Exception", "Unexpected Exception")
-                exception.value = true
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
+    private val _isRefreshLoading = MutableLiveData<Boolean>()
+    val isRefreshLoading: LiveData<Boolean> = _isRefreshLoading
+
+    fun getUpcomingAndFinishedEvents() {
+        if (_upcomingEvents.value == null || _finishedEvents.value == null) {
+            _isLoading.value = true
+
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    val upcomingEvent = eventRepository.getLimitUpcomingEvents().listEvents
+                    val finishedEvent = eventRepository.getLimitFinishedEvents().listEvents
+                    _upcomingEvents.postValue(upcomingEvent)
+                    _finishedEvents.postValue(finishedEvent)
+                } catch (e: Exception) {
+                    _exception.postValue(true)
+                } finally {
+                    _isLoading.postValue(false)
+                }
             }
         }
     }
 
-    fun getFinishedEvents() {
-        viewModelScope.launch {
+    fun refreshUpcomingAndFinishedEvents() {
+        _isRefreshLoading.value = true
+
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                finishedEvents.value = eventRepository.getLimitFinishedEvents().listEvents
+                val upcomingEvent = eventRepository.getLimitUpcomingEvents().listEvents
+                val finishedEvent = eventRepository.getLimitFinishedEvents().listEvents
+                _upcomingEvents.postValue(upcomingEvent)
+                _finishedEvents.postValue(finishedEvent)
             } catch (e: Exception) {
-                Log.e("Exception", "Unexpected Exception")
+                _exception.postValue(true)
+            } finally {
+                _isRefreshLoading.postValue(false)
             }
         }
     }
 
     fun resetExceptionValue() {
-        exception.value = false
+        _exception.value = false
     }
 }

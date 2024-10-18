@@ -1,4 +1,4 @@
-package com.example.dicodingevent.data.model
+package com.example.dicodingevent.data.remote.model
 
 data class HeaderListEvent(
     val error: Boolean,

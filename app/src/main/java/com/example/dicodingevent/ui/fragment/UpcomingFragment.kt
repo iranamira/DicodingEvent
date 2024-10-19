@@ -85,5 +85,16 @@ class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
         upcomingViewModel.isRefreshLoading.observe(viewLifecycleOwner) {
             binding.swipeRefresh.isRefreshing = it
         }
+
+        upcomingViewModel.refreshException.observe(viewLifecycleOwner) {
+            if (it) {
+                Toast.makeText(
+                    requireContext(),
+                    requireContext().resources.getString(R.string.no_internet_connection),
+                    Toast.LENGTH_SHORT
+                ).show()
+                upcomingViewModel.resetExceptionValue()
+            }
+        }
     }
 }

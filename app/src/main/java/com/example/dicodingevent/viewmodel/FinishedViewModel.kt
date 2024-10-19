@@ -22,6 +22,9 @@ class FinishedViewModel(private val eventRepository: EventRepository) : ViewMode
     private val _isRefreshLoading = MutableLiveData<Boolean>()
     val isRefreshLoading: LiveData<Boolean> = _isRefreshLoading
 
+    private val _refreshException = MutableLiveData<Boolean>()
+    val refreshException: LiveData<Boolean> = _refreshException
+
     fun getFinishedEvents() {
         if (_finishedEvents.value == null) {
             _isLoading.value = true
@@ -30,7 +33,6 @@ class FinishedViewModel(private val eventRepository: EventRepository) : ViewMode
                 try {
                     val event = eventRepository.getFinishedEvents().listEvents
                     _finishedEvents.postValue(event)
-                    _exception.postValue(false)
                 } catch (e: Exception) {
                     _exception.postValue(true)
                 } finally {
@@ -47,9 +49,8 @@ class FinishedViewModel(private val eventRepository: EventRepository) : ViewMode
             try {
                 val event = eventRepository.getFinishedEvents().listEvents
                 _finishedEvents.postValue(event)
-                _exception.postValue(false)
             } catch (e: Exception) {
-                _exception.postValue(true)
+                _refreshException.postValue(true)
             } finally {
                 _isRefreshLoading.postValue(false)
             }
@@ -58,5 +59,6 @@ class FinishedViewModel(private val eventRepository: EventRepository) : ViewMode
 
     fun resetExceptionValue() {
         _exception.value = false
+        _refreshException.value = false
     }
 }

@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.dicodingevent.R
-import com.example.dicodingevent.adapter.MenuAdapter
+import com.example.dicodingevent.adapter.SearchAdapter
 import com.example.dicodingevent.data.local.LocalDatabase
 import com.example.dicodingevent.data.remote.api.ApiClient
 import com.example.dicodingevent.data.repository.EventRepository
@@ -27,7 +27,7 @@ class SearchActivity : AppCompatActivity(R.layout.activity_search) {
         val factory = ViewModelFactory(eventRepository)
         ViewModelProvider(this, factory)[SearchViewModel::class.java]
     }
-    private lateinit var menuAdapter: MenuAdapter
+    private lateinit var searchAdapter: SearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +44,9 @@ class SearchActivity : AppCompatActivity(R.layout.activity_search) {
     }
 
     private fun setupRecyclerView() {
-        menuAdapter = MenuAdapter(listOf())
+        searchAdapter = SearchAdapter(listOf())
         binding.rvUpcomingEvent.layoutManager = LinearLayoutManager(this)
-        binding.rvUpcomingEvent.adapter = menuAdapter
+        binding.rvUpcomingEvent.adapter = searchAdapter
     }
 
     private fun setupSearchView() {
@@ -68,7 +68,7 @@ class SearchActivity : AppCompatActivity(R.layout.activity_search) {
 
     private fun setupObservers() {
         searchViewModel.eventsByKeyword.observe(this) {
-            menuAdapter.updateData(it)
+            searchAdapter.updateData(it)
 
             if (it.isNotEmpty()) {
                 binding.rvUpcomingEvent.visibility = View.VISIBLE

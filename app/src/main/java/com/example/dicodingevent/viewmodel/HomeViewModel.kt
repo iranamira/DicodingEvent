@@ -25,6 +25,9 @@ class HomeViewModel(private val eventRepository: EventRepository) : ViewModel() 
     private val _isRefreshLoading = MutableLiveData<Boolean>()
     val isRefreshLoading: LiveData<Boolean> = _isRefreshLoading
 
+    private val _refreshException = MutableLiveData<Boolean>()
+    val refreshException: LiveData<Boolean> = _refreshException
+
     fun getUpcomingAndFinishedEvents() {
         if (_upcomingEvents.value == null || _finishedEvents.value == null) {
             _isLoading.value = true
@@ -54,7 +57,7 @@ class HomeViewModel(private val eventRepository: EventRepository) : ViewModel() 
                 _upcomingEvents.postValue(upcomingEvent)
                 _finishedEvents.postValue(finishedEvent)
             } catch (e: Exception) {
-                _exception.postValue(true)
+                _refreshException.postValue(true)
             } finally {
                 _isRefreshLoading.postValue(false)
             }
@@ -63,5 +66,6 @@ class HomeViewModel(private val eventRepository: EventRepository) : ViewModel() 
 
     fun resetExceptionValue() {
         _exception.value = false
+        _refreshException.value = false
     }
 }

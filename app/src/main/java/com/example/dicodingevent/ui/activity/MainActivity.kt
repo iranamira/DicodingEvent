@@ -1,23 +1,49 @@
 package com.example.dicodingevent.ui.activity
 
+import android.Manifest
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.dicodingevent.R
+import com.example.dicodingevent.data.local.datastore.DataStoreInstance
+import com.example.dicodingevent.data.local.datastore.SettingsPreference
 import com.example.dicodingevent.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val binding by viewBinding(ActivityMainBinding::bind)
+    private val settingsPreference by lazy {
+        SettingsPreference(DataStoreInstance.getInstance(this))
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                lifecycleScope.launch {
+                    settingsPreference.updateNotification(true)
+                }
+            } else {
+                lifecycleScope.launch {
+                    settingsPreference.updateNotification(false)
+                }
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupButton()
         setupBottomNavigationView()
+        setupPermission()
     }
 
     private fun setupButton() {
@@ -54,6 +80,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     binding.ibSearch.visibility = View.GONE
                 }
             }
+        }
+    }
+
+    private fun setupPermission() {
+        if (Build.VERSION.SDK_INT >= 33) {
+            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
     }
 }

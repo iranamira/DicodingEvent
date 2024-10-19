@@ -85,5 +85,16 @@ class FinishedFragment : Fragment(R.layout.fragment_finished) {
         finishedViewModel.isRefreshLoading.observe(viewLifecycleOwner) {
             binding.swipeRefresh.isRefreshing = it
         }
+
+        finishedViewModel.refreshException.observe(viewLifecycleOwner) {
+            if (it) {
+                Toast.makeText(
+                    requireContext(),
+                    requireContext().resources.getString(R.string.no_internet_connection),
+                    Toast.LENGTH_SHORT
+                ).show()
+                finishedViewModel.resetExceptionValue()
+            }
+        }
     }
 }

@@ -28,4 +28,6 @@
     <string name="no_favorite_event">Daftar event favorit kamu masih kosong</string>
     <string name="success_save_to_favorite">Event berhasil ditambahkan ke daftar favorit</string>
     <string name="success_remove_from_favorite">Event berhasil dihapus dari daftar favorit</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="notification">Notification</string>
 </resources>

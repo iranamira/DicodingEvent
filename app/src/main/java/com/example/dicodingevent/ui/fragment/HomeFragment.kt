@@ -110,5 +110,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         homeViewModel.isRefreshLoading.observe(viewLifecycleOwner) {
             binding.swipeRefresh.isRefreshing = it
         }
+
+        homeViewModel.refreshException.observe(viewLifecycleOwner) {
+            if (it) {
+                Toast.makeText(
+                    requireContext(),
+                    requireContext().resources.getString(R.string.no_internet_connection),
+                    Toast.LENGTH_SHORT
+                ).show()
+                homeViewModel.resetExceptionValue()
+            }
+        }
     }
 }

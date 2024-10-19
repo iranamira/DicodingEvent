@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.dicodingevent.R
 import com.example.dicodingevent.data.local.entity.Event
 import com.example.dicodingevent.databinding.ItemEventBinding
-import com.example.dicodingevent.util.DateTimeUtil
+import com.example.dicodingevent.util.DateTimeUtil.convertDate
 import com.example.dicodingevent.util.EventUtil
 
 class FavoriteAdapter(
@@ -44,39 +44,12 @@ class FavoriteAdapter(
                 .into(itemBinding.ivEventImage)
 
             itemBinding.tvEventTitle.text = data.name
-            itemBinding.tvEventDate.text = convertDate(itemBinding, data.beginTime, data.endTime)
+            itemBinding.tvEventDate.text = convertDate(itemView.context, data.beginTime, data.endTime)
             itemBinding.tvEventCategory.text = data.category
 
             itemBinding.container.setOnClickListener {
                 EventUtil.eventId = data.id
                 navController.navigate(R.id.action_fragmentFavorite_to_detailActivity)
-            }
-        }
-
-        private fun convertDate(itemBinding: ItemEventBinding, begin: String, end: String): String {
-            val beginDate = begin.substring(0, 10)
-            val beginTime = begin.substring(11)
-            val endDate = end.substring(0, 10)
-            val endTime = end.substring(11)
-
-            val beginFinal = DateTimeUtil.getIndonesianDateFormat(beginDate)
-            val endFinal = DateTimeUtil.getIndonesianDateFormat(endDate)
-
-            return if (beginFinal == endFinal) {
-                itemBinding.root.context.resources.getString(
-                    R.string.event_date_same_day,
-                    beginFinal,
-                    beginTime,
-                    endTime
-                )
-            } else {
-                itemBinding.root.context.resources.getString(
-                    R.string.event_date_different_day,
-                    beginFinal,
-                    beginTime,
-                    endFinal,
-                    endTime
-                )
             }
         }
     }

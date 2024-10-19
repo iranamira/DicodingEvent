@@ -16,7 +16,7 @@ import com.example.dicodingevent.data.local.entity.Event
 import com.example.dicodingevent.data.remote.api.ApiClient
 import com.example.dicodingevent.data.repository.EventRepository
 import com.example.dicodingevent.databinding.ActivityDetailBinding
-import com.example.dicodingevent.util.DateTimeUtil
+import com.example.dicodingevent.util.DateTimeUtil.convertDate
 import com.example.dicodingevent.util.EventUtil
 import com.example.dicodingevent.viewmodel.DetailViewModel
 import com.example.dicodingevent.viewmodel.ViewModelFactory
@@ -87,7 +87,7 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
                 tvEventTitle.text = it.name
                 tvEventOwnerName.text = it.ownerName
                 tvEventCategoryName.text = it.category
-                tvEventDateBegin.text = convertDate(it.beginTime, it.endTime)
+                tvEventDateBegin.text = convertDate(this@DetailActivity, it.beginTime, it.endTime)
                 tvEventCityName.text = it.cityName
                 tvEventQuotaRemaining.text = (it.quota - it.registrants).toString()
                 tvEventDescriptionText.text = Html.fromHtml(htmlText, Html.FROM_HTML_MODE_LEGACY)
@@ -157,32 +157,5 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
             resources.getString(R.string.success_remove_from_favorite),
             Toast.LENGTH_SHORT
         ).show()
-    }
-
-    private fun convertDate(begin: String, end: String): String {
-        val beginDate = begin.substring(0, 10)
-        val beginTime = begin.substring(11)
-        val endDate = end.substring(0, 10)
-        val endTime = end.substring(11)
-
-        val beginFinal = DateTimeUtil.getIndonesianDateFormat(beginDate)
-        val endFinal = DateTimeUtil.getIndonesianDateFormat(endDate)
-
-        return if (beginFinal == endFinal) {
-            resources.getString(
-                R.string.event_date_same_day,
-                beginFinal,
-                beginTime,
-                endTime
-            )
-        } else {
-            resources.getString(
-                R.string.event_date_different_day,
-                beginFinal,
-                beginTime,
-                endFinal,
-                endTime
-            )
-        }
     }
 }

@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.viewbindingpropertydelegate.noreflection)
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.datastore.preferences)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

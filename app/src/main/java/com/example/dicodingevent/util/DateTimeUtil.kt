@@ -1,6 +1,8 @@
 package com.example.dicodingevent.util
 
+import android.content.Context
 import android.os.Build
+import com.example.dicodingevent.R
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -55,5 +57,32 @@ object DateTimeUtil {
         val indonesianDay = getDayFromDate(dateString)
         val indonesianDate = convertDateToIndonesianFormat(dateString)
         return "$indonesianDay, $indonesianDate"
+    }
+
+    fun convertDate(context: Context, begin: String, end: String): String {
+        val beginDate = begin.substring(0, 10)
+        val beginTime = begin.substring(11)
+        val endDate = end.substring(0, 10)
+        val endTime = end.substring(11)
+
+        val beginFinal = getIndonesianDateFormat(beginDate)
+        val endFinal = getIndonesianDateFormat(endDate)
+
+        return if (beginFinal == endFinal) {
+            context.resources.getString(
+                R.string.event_date_same_day,
+                beginFinal,
+                beginTime,
+                endTime
+            )
+        } else {
+            context.resources.getString(
+                R.string.event_date_different_day,
+                beginFinal,
+                beginTime,
+                endFinal,
+                endTime
+            )
+        }
     }
 }

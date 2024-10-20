@@ -30,4 +30,6 @@
     <string name="success_remove_from_favorite">Event berhasil dihapus dari daftar favorit</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="notification">Notification</string>
+    <string name="notification_content_text">Akan dilaksanakan pada hari %1$s | %2$s WIB</string>
+    <string name="notification_subtext">Reminder</string>
 </resources>

@@ -1,12 +1,12 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.DicodingEvent" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/white</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="colorAccent">@color/grey</item>
+    <style name="Theme.DicodingEvent" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/base_color</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorAccent">@color/component_secondary_color</item>
         <item name="android:fontFamily">@font/lato_bold</item>
-        <item name="android:textColorPrimary">@color/grey</item>
-        <item name="android:textColorHint">@color/grey</item>
+        <item name="android:textColorPrimary">@color/component_secondary_color</item>
+        <item name="android:textColorHint">@color/component_secondary_color</item>
         <item name="android:textSize">14sp</item>
     </style>
 </resources>

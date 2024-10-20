@@ -2,6 +2,7 @@ package com.example.dicodingevent.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -36,6 +37,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             launch {
                 settingsPreference.darkMode.collect { isEnabled ->
                     binding.swDarkMode.isChecked = isEnabled
+
+                    if (isEnabled) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    }
                 }
             }
             launch {

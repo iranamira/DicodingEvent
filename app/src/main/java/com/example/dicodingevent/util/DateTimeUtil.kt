@@ -53,7 +53,7 @@ object DateTimeUtil {
         }
     }
 
-    fun getIndonesianDateFormat(dateString: String): String {
+    private fun getIndonesianDateFormat(dateString: String): String {
         val indonesianDay = getDayFromDate(dateString)
         val indonesianDate = convertDateToIndonesianFormat(dateString)
         return "$indonesianDay, $indonesianDate"
@@ -84,5 +84,14 @@ object DateTimeUtil {
                 endTime
             )
         }
+    }
+
+    fun convertBeginDate(context: Context, date: String): String {
+        val beginDate = date.substring(0, 10)
+        val beginTime = date.substring(11)
+
+        val beginFinal = getIndonesianDateFormat(beginDate)
+
+        return context.resources.getString(R.string.notification_content_text, beginFinal, beginTime)
     }
 }

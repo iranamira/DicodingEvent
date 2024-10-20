@@ -13,7 +13,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/base_color">
 
             <TextView
                 android:id="@+id/tv_upcoming_text"
@@ -23,7 +24,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/lato_bold"
                 android:text="@string/label_upcoming"
-                android:textColor="@color/grey"
+                android:textColor="@color/component_secondary_color"
                 android:textSize="14sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -33,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@color/white"
+                android:background="@color/base_color"
                 app:layout_constraintTop_toBottomOf="@id/tv_upcoming_text"/>
 
             <TextView
@@ -44,7 +45,7 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/lato_bold"
                 android:text="@string/label_finished"
-                android:textColor="@color/grey"
+                android:textColor="@color/component_secondary_color"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/rv_upcoming_event"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -54,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@color/white"
+                android:background="@color/base_color"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintTop_toBottomOf="@id/tv_finished_text" />
 
@@ -64,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato_bold"
                 android:text="@string/failed_to_load_data"
-                android:textColor="@color/grey"
+                android:textColor="@color/component_secondary_color"
                 android:textSize="16sp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -76,7 +77,7 @@
                 android:id="@+id/progress_bar"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:indeterminateTint="@color/sky_blue"
+                android:indeterminateTint="@color/component_primary_color"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

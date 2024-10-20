@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/white"
+        android:background="@color/base_color"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
@@ -46,7 +46,7 @@
         android:id="@+id/rv_upcoming_event"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
+        android:background="@color/base_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
         android:text="@string/no_result_keyword"
-        android:textColor="@color/grey"
+        android:textColor="@color/component_secondary_color"
         android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -68,7 +68,7 @@
         android:id="@+id/progress_bar"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:indeterminateTint="@color/sky_blue"
+        android:indeterminateTint="@color/component_primary_color"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

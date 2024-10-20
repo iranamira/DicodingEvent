@@ -54,6 +54,12 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     private fun setupObservers() {
         favoriteViewModel.finishedEvents.observe(viewLifecycleOwner) {
             favoriteAdapter.updateData(it)
+
+            if (it.isEmpty()) {
+                binding.tvNoFavoriteEvent.visibility = View.VISIBLE
+            } else {
+                binding.tvNoFavoriteEvent.visibility = View.GONE
+            }
         }
     }
 }

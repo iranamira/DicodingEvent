@@ -7,11 +7,15 @@ import android.text.Html
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.dicodingevent.R
 import com.example.dicodingevent.data.local.LocalDatabase
+import com.example.dicodingevent.data.local.datastore.DataStoreInstance
+import com.example.dicodingevent.data.local.datastore.SettingsPreference
 import com.example.dicodingevent.data.local.entity.Event
 import com.example.dicodingevent.data.remote.api.ApiClient
 import com.example.dicodingevent.data.repository.EventRepository
@@ -20,6 +24,7 @@ import com.example.dicodingevent.util.DateTimeUtil.convertDate
 import com.example.dicodingevent.util.EventUtil
 import com.example.dicodingevent.viewmodel.DetailViewModel
 import com.example.dicodingevent.viewmodel.ViewModelFactory
+import kotlinx.coroutines.launch
 
 class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
     private val binding by viewBinding(ActivityDetailBinding::bind)
@@ -29,6 +34,9 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
             LocalDatabase.getDatabase(this).getEventDao())
         val factory = ViewModelFactory(eventRepository)
         ViewModelProvider(this, factory)[DetailViewModel::class.java]
+    }
+    private val settingsPreference by lazy {
+        SettingsPreference(DataStoreInstance.getInstance(this))
     }
     private var url = ""
     private var isFavorite = false
@@ -67,7 +75,11 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
     }
 
     private fun getEvent() {
-        detailViewModel.getEvent(EventUtil.eventId)
+        if (EventUtil.eventId == 0) {
+            detailViewModel.getEvent(intent.getIntExtra("event_id", 0))
+        } else {
+            detailViewModel.getEvent(EventUtil.eventId)
+        }
     }
 
     private fun checkIsEventExistInFavorite() {
@@ -126,6 +138,16 @@ class DetailActivity : AppCompatActivity(R.layout.activity_detail) {
                 binding.ibFavorite.setImageResource(R.drawable.favorite)
             } else {
                 binding.ibFavorite.setImageResource(R.drawable.unfavorite)
+            }
+        }
+
+        lifecycleScope.launch {
+            settingsPreference.darkMode.collect { isEnabled ->
+                if (isEnabled) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
             }
         }
     }

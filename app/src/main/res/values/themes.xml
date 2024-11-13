@@ -3,7 +3,7 @@
         <item name="android:statusBarColor">@color/base_color</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="colorAccent">@color/component_secondary_color</item>
-        <item name="android:fontFamily">@font/lato_bold</item>
+        <item name="android:fontFamily">@font/open_sans_bold</item>
         <item name="android:textColorPrimary">@color/component_secondary_color</item>
         <item name="android:textColorHint">@color/component_secondary_color</item>
         <item name="android:textSize">14sp</item>

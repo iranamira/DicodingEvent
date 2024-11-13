@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/base_color"
+        android:background="@color/pink"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
@@ -54,7 +54,7 @@
         android:id="@+id/tv_no_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lato_bold"
+        android:fontFamily="@font/open_sans_bold"
         android:text="@string/no_result_keyword"
         android:textColor="@color/component_secondary_color"
         android:textSize="16sp"

@@ -7,4 +7,5 @@
     <color name="component_secondary_color">#707070</color>
     <color name="component_accent_color">#B4B5B8</color>
     <color name="component_content_color">#FFFFFF</color>
+    <color name="pink">#FFC0CB</color>
 </resources>

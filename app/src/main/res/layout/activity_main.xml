@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/base_color"
+        android:background="@color/pink"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:fontFamily="@font/lato_bold"
+            android:fontFamily="@font/open_sans_bold"
             android:textColor="@color/component_secondary_color"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
